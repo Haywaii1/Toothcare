@@ -1,13 +1,5 @@
 import React from "react";
 import Navbar from "./Navbar";
-import './about.css'; // Import the CSS file
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'animate.css/animate.min.css';
-import 'jquery/dist/jquery.min.js';
-import "owl.carousel/dist/assets/owl.carousel.css";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import "./style.css";
 
 const Contact = () => {
@@ -53,10 +45,8 @@ const Contact = () => {
             </div>
         </div>
     </div>
-    {/* Full Screen Search End */}
 
 
-    {/* Hero Start */}
     <div class="container-fluid bg-primary py-5 hero-header mb-5">
         <div class="row py-3">
             <div class="col-12 text-center">
@@ -67,10 +57,8 @@ const Contact = () => {
             </div>
         </div>
     </div>
-    {/* Hero End */}
 
 
-    {/* Contact Start */}
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row g-5">
@@ -133,10 +121,8 @@ const Contact = () => {
             </div>
         </div>
     </div>
-    {/* Contact End */}
 
 
-    {/* Newsletter Start */}
     <div className="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style={{ zIndex: 1 }}>
         <div class="container">
             <div class="bg-primary p-5">
@@ -149,10 +135,8 @@ const Contact = () => {
             </div>
         </div>
     </div>
-    {/* Newsletter End */}
     
 
-    {/* Footer Start */}
     <div className="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style={{ marginTop: '-75px' }}>
         <div class="container pt-5">
             <div class="row g-5 pt-4">
@@ -198,10 +182,10 @@ const Contact = () => {
         <div class="container">
             <div class="row g-0">
                 <div class="col-md-6 text-center text-md-start">
-                    <p className="mb-md-0">&copy; <span className="text-white border-bottom">Your Site Name</span>. All Rights Reserved.</p>
+                    <p className="mb-md-0">&copy; <span className="text-white border-bottom">DENCARE</span>. All Rights Reserved.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <p class="mb-0">Designed by <a class="text-white border-bottom" href="https://htmlcodex.com">HTML Codex</a></p>
+                    <p class="mb-0">Designed for Dencare</p>
                 </div>
             </div>
         </div>

@@ -2,8 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-direction: column;
+    min-height: 80vh;
     background: #f0f2f5;
+    flex: 1
   }
   
   .auth-box {
@@ -67,4 +69,28 @@
   .auth-text a:hover {
     text-decoration: underline;
   }
+
+  .footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #333; /* Adjust as needed */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Ensure the page takes the full viewport height */
+.register-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Allow the content to take remaining space */
+  .content {
+    flex: 1;
+  }
+  
   

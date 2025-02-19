@@ -1,5 +1,7 @@
 import React, { useState} from "react"; 
 import Navbar from "./Navbar";
+import Footer from "./footer";
+import "./forms.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -62,58 +64,59 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div>
-        <Navbar />
-      </div>
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card shadow-lg p-4">
-              <h2 className="text-center mb-4">Register</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label className="form-label">First Name</label>
-                  <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} />
-                  {errors.firstName && <small className="text-danger">{errors.firstName}</small>}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Last Name</label>
-                  <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} />
-                  {errors.lastName && <small className="text-danger">{errors.lastName}</small>}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Email</label>
-                  <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} />
-                  {errors.email && <small className="text-danger">{errors.email}</small>}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Phone</label>
-                  <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleChange} />
-                  {errors.phone && <small className="text-danger">{errors.phone}</small>}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Password</label>
-                  <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} />
-                  {errors.password && <small className="text-danger">{errors.password}</small>}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Confirm Password</label>
-                  <input type="password" className="form-control" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-                  {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
-                </div>
-
-                <button type="submit" className="btn btn-primary w-100">Register</button>
-              </form>
+    <div className="register-container">
+      <Navbar />
+      <div className="content">
+        <div className="container mt-5">
+          <div className="row justify-content-center">
+            <div className="col-md-6">
+              <div className="card shadow-lg p-4">
+                <h2 className="text-center mb-4">Register</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label className="form-label">First Name</label>
+                    <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} />
+                    {errors.firstName && <small className="text-danger">{errors.firstName}</small>}
+                  </div>
+  
+                  <div className="mb-3">
+                    <label className="form-label">Last Name</label>
+                    <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} />
+                    {errors.lastName && <small className="text-danger">{errors.lastName}</small>}
+                  </div>
+  
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} />
+                    {errors.email && <small className="text-danger">{errors.email}</small>}
+                  </div>
+  
+                  <div className="mb-3">
+                    <label className="form-label">Phone</label>
+                    <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleChange} />
+                    {errors.phone && <small className="text-danger">{errors.phone}</small>}
+                  </div>
+  
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} />
+                    {errors.password && <small className="text-danger">{errors.password}</small>}
+                  </div>
+  
+                  <div className="mb-3">
+                    <label className="form-label">Confirm Password</label>
+                    <input type="password" className="form-control" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+                    {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
+                  </div>
+  
+                  <button type="submit" className="btn btn-primary w-100">Register</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+    </div>
+      <Footer />
     </div>
   );
 };
