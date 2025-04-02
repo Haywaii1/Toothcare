@@ -1,0 +1,161 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 80vh;
+    background: #f0f2f5;
+    flex: 1
+  }
+
+  .auth-box {
+    width: 400px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .form-group {
+    text-align: left;
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .auth-button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .auth-button:hover {
+    background: #0056b3;
+  }
+
+  .auth-text {
+    margin-top: 15px;
+  }
+
+  .auth-text a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .auth-text a:hover {
+    text-decoration: underline;
+  }
+
+  .footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #333; /* Adjust as needed */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Ensure the page takes the full viewport height */
+.register-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Allow the content to take remaining space */
+  .content {
+    flex: 1;
+  }
+
+  /* Center the login form */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+
