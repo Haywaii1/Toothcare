@@ -8,11 +8,19 @@ use App\Http\Controllers\DoctorController;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Notifications\VerifyEmailNotification;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\TeamController;
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/doctors', [DoctorController::class, 'search']);
 Route::get('/doctors-by-service', [DoctorController::class, 'getDoctorsByService']);
+Route::post('/contact', [ContactController::class, 'store']);
+Route::get('/team', [TeamController::class, 'index']); // Get all members
+Route::get('/team/{id}', [TeamController::class, 'show']); // Get single member by ID
+Route::get('/seed-team', [TeamController::class, 'seedTeamMembers']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/appointments', [AppointmentController::class, 'appointment']);

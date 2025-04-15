@@ -15,6 +15,8 @@ const Appointment = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [authToken, setAuthToken] = useState("");
+  const [buttonClicked, setButtonClicked] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -41,8 +43,7 @@ const Appointment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Auth Token before request:", authToken); // Verify token before sending
+    setButtonClicked(true);
 
     try {
       const response = await axios.post(
@@ -54,25 +55,26 @@ const Appointment = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${authToken}`, // Ensure correct format
+            Authorization: `Bearer ${authToken}`,
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          withCredentials: true, // Needed for Sanctum authentication
+          withCredentials: true,
         }
       );
 
       setSuccessMessage("Appointment booked successfully!");
 
-      // Redirect to home page after 2 seconds
       setTimeout(() => {
         navigate("/");
       }, 2000);
     } catch (error) {
       console.error("Error:", error.response?.data);
       setErrorMessage(error.response?.data?.message || "Failed to book appointment.");
+      setButtonClicked(false); // Allow retry
     }
   };
+
 
   return (
     <div className="container mt-5">
@@ -129,9 +131,14 @@ const Appointment = () => {
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" className="btn btn-primary w-100">
-          Book Appointment
-        </button>
+        <button
+  type="submit"
+  className={`btn btn-primary w-100 ${buttonClicked ? "opacity-50" : ""}`}
+  disabled={buttonClicked}
+>
+  {buttonClicked ? "Booking..." : "Book Appointment"}
+</button>
+
       </form>
     </div>
   );

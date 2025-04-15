@@ -51,7 +51,7 @@ const About = () => {
           <div className="row g-5">
             <div className="col-lg-7">
               <div className="section-title mb-4">
-                
+
                 <h1 className="display-5 mb-0">
                   The World's Best Dental Clinic That You Can Trust
                 </h1>
@@ -112,20 +112,7 @@ const About = () => {
         className="container-fluid position-relative pt-5"
         style={{ zIndex: 1 }}
       >
-        <div className="container">
-          <div className="bg-primary p-5">
-            <form className="mx-auto" style={{ maxWidth: "600px" }}>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control border-white p-3"
-                  placeholder="Your Email"
-                />
-                <button className="btn btn-dark px-4">Sign Up</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        
       </div>
       {/* Newsletter End */}
 
