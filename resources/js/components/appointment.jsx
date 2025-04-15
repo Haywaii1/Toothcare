@@ -17,17 +17,14 @@ const Appointment = () => {
   const [authToken, setAuthToken] = useState("");
   const [buttonClicked, setButtonClicked] = useState(false);
 
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
-    console.log("Retrieved Token:", token); // Check if token exists
     if (token) {
       setAuthToken(token);
     }
   }, []);
-
 
   const handleDateChange = (date) => {
     setFormData({ ...formData, date });
@@ -75,6 +72,17 @@ const Appointment = () => {
     }
   };
 
+  // 👇 Protect the route: Only show form if logged in
+  if (!authToken) {
+    return (
+      <div className="container mt-5 text-center">
+        <h3>Please log in to book an appointment.</h3>
+        <button className="btn btn-primary mt-3" onClick={() => navigate("/login")}>
+          Go to Login
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
@@ -99,6 +107,7 @@ const Appointment = () => {
             <option value="Extraction">Extraction</option>
           </select>
         </div>
+
         <div className="mb-3">
           <label className="form-label">Date</label>
           <DatePicker
@@ -110,6 +119,7 @@ const Appointment = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Time</label>
           <input
@@ -121,6 +131,7 @@ const Appointment = () => {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Message</label>
           <textarea
@@ -131,14 +142,14 @@ const Appointment = () => {
             rows="3"
           ></textarea>
         </div>
-        <button
-  type="submit"
-  className={`btn btn-primary w-100 ${buttonClicked ? "opacity-50" : ""}`}
-  disabled={buttonClicked}
->
-  {buttonClicked ? "Booking..." : "Book Appointment"}
-</button>
 
+        <button
+          type="submit"
+          className={`btn btn-primary w-100 ${buttonClicked ? "opacity-50" : ""}`}
+          disabled={buttonClicked}
+        >
+          {buttonClicked ? "Booking..." : "Book Appointment"}
+        </button>
       </form>
     </div>
   );

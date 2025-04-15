@@ -1,4 +1,5 @@
 import '../../css/style.css';
+import Footer from "./Footer";
 
 import React from "react";
 
@@ -112,38 +113,11 @@ const About = () => {
         className="container-fluid position-relative pt-5"
         style={{ zIndex: 1 }}
       >
-        
+
       </div>
       {/* Newsletter End */}
 
-      {/* Footer Start */}
-      <div className="container-fluid bg-dark text-light py-5">
-        <div className="container pt-5">
-          <div className="row g-5 pt-4">
-            <div className="col-lg-3 col-md-6">
-              <h3 className="text-white mb-4">Quick Links</h3>
-              <div className="d-flex flex-column">
-                <a className="text-light mb-2" href="#">
-                  Home
-                </a>
-                <a className="text-light mb-2" href="#">
-                  About Us
-                </a>
-                <a className="text-light mb-2" href="#">
-                  Our Services
-                </a>
-                <a className="text-light mb-2" href="#">
-                  Latest Blog
-                </a>
-                <a className="text-light" href="#">
-                  Contact Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Footer End */}
+      <Footer />
     </>
   );
 };

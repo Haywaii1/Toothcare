@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Notifications\VerifyEmailNotification;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\NewsletterController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -20,6 +21,8 @@ Route::post('/contact', [ContactController::class, 'store']);
 Route::get('/team', [TeamController::class, 'index']); // Get all members
 Route::get('/team/{id}', [TeamController::class, 'show']); // Get single member by ID
 Route::get('/seed-team', [TeamController::class, 'seedTeamMembers']);
+Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
+
 
 
 Route::middleware('auth:sanctum')->group(function () {

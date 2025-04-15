@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import "../../css/forms.css";
 import axios from "axios";
+import Footer from "../components/Footer";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -61,7 +62,6 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <Navbar />
       <div className="content">
         <div className="container mt-5">
           <div className="row justify-content-center">
@@ -110,6 +110,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
