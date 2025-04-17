@@ -16,69 +16,70 @@ const Footer = () => {
 
             {/* Footer Info Sections */}
             <div
-                className="container-fluid bg-dark text-light py-5 wow fadeInUp"
-                data-wow-delay="0.3s"
-                style={{ marginTop: "-75px" }}
-            >
-                <div className="container pt-5">
-                    <div className="row g-5 pt-4">
-                        {/* Quick Links */}
-                        <div className="col-lg-3 col-md-6">
-                            <h3 className="text-white mb-4">Quick Links</h3>
-                            <div className="d-flex flex-column">
-                                <Link to="/" className="text-light mb-2">
-                                    <i className="bi bi-arrow-right text-primary me-2"></i>Home
-                                </Link>
-                                <Link to="/about" className="text-light mb-2">
-                                    <i className="bi bi-arrow-right text-primary me-2"></i>About Us
-                                </Link>
-                                <Link to="/services" className="text-light mb-2">
-                                    <i className="bi bi-arrow-right text-primary me-2"></i>Our Services
-                                </Link>
-                                <Link to="/blog" className="text-light mb-2">
-                                    <i className="bi bi-arrow-right text-primary me-2"></i>Latest Blog
-                                </Link>
-                                <Link to="/contact" className="text-light">
-                                    <i className="bi bi-arrow-right text-primary me-2"></i>Contact Us
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Contact Info */}
-                        <div className="col-lg-3 col-md-6">
-                            <h3 className="text-white mb-4">Get In Touch</h3>
-                            <p className="mb-2">
-                                <i className="bi bi-geo-alt text-primary me-2"></i>123 Street, New York, USA
-                            </p>
-                            <p className="mb-2">
-                                <i className="bi bi-envelope-open text-primary me-2"></i>info@example.com
-                            </p>
-                            <p className="mb-0">
-                                <i className="bi bi-telephone text-primary me-2"></i>+012 345 67890
-                            </p>
-                        </div>
-
-                        {/* Social Links */}
-                        <div className="col-lg-3 col-md-6">
-                            <h3 className="text-white mb-4">Follow Us</h3>
-                            <div className="d-flex">
-                                <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
-                                    <i className="fab fa-twitter fw-normal"></i>
-                                </a>
-                                <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
-                                    <i className="fab fa-facebook-f fw-normal"></i>
-                                </a>
-                                <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
-                                    <i className="fab fa-linkedin-in fw-normal"></i>
-                                </a>
-                                <a className="btn btn-lg btn-primary btn-lg-square rounded" href="#">
-                                    <i className="fab fa-instagram fw-normal"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+    className="container-fluid bg-dark text-light py-5 wow fadeInUp"
+    data-wow-delay="0.3s"
+    style={{ marginTop: "-75px" }}
+>
+    <div className="container pt-5">
+        <div className="row g-5 justify-content-center">
+            {/* Quick Links */}
+            <div className="col-lg-3 col-md-6 text-start">
+                <h3 className="text-white mb-4">Quick Links</h3>
+                <div className="d-flex flex-column align-items-start">
+                    <Link to="/" className="text-light mb-2">
+                        <i className="bi bi-arrow-right text-primary me-2"></i>Home
+                    </Link>
+                    <Link to="/about" className="text-light mb-2">
+                        <i className="bi bi-arrow-right text-primary me-2"></i>About Us
+                    </Link>
+                    <Link to="/services" className="text-light mb-2">
+                        <i className="bi bi-arrow-right text-primary me-2"></i>Our Services
+                    </Link>
+                    <Link to="/blog" className="text-light mb-2">
+                        <i className="bi bi-arrow-right text-primary me-2"></i>Latest Blog
+                    </Link>
+                    <Link to="/contact" className="text-light">
+                        <i className="bi bi-arrow-right text-primary me-2"></i>Contact Us
+                    </Link>
                 </div>
             </div>
+
+            {/* Contact Info */}
+            <div className="col-lg-3 col-md-6 text-start">
+                <h3 className="text-white mb-4">Get In Touch</h3>
+                <p className="mb-2">
+                    <i className="bi bi-geo-alt text-primary me-2"></i>123 Street, New York, USA
+                </p>
+                <p className="mb-2">
+                    <i className="bi bi-envelope-open text-primary me-2"></i>info@example.com
+                </p>
+                <p className="mb-0">
+                    <i className="bi bi-telephone text-primary me-2"></i>+012 345 67890
+                </p>
+            </div>
+
+            {/* Social Links */}
+            <div className="col-lg-3 col-md-6 text-start">
+                <h3 className="text-white mb-4">Follow Us</h3>
+                <div className="d-flex justify-content-start">
+                    <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
+                        <i className="fab fa-twitter fw-normal"></i>
+                    </a>
+                    <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
+                        <i className="fab fa-facebook-f fw-normal"></i>
+                    </a>
+                    <a className="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#">
+                        <i className="fab fa-linkedin-in fw-normal"></i>
+                    </a>
+                    <a className="btn btn-lg btn-primary btn-lg-square rounded" href="#">
+                        <i className="fab fa-instagram fw-normal"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
             {/* Bottom Bar */}
             <div
@@ -105,7 +106,7 @@ const Footer = () => {
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    HTML Codex
+                                    HayWare Tech
                                 </a>
                             </p>
                         </div>

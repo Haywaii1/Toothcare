@@ -323,3 +323,14 @@ h6,
     width: 120px;
     height: 120px;
 }
+
+.remember-me {
+    margin: 10px 0;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    font-size: 14px;
+}

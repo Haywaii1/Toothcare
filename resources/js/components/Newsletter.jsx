@@ -9,7 +9,7 @@ const Newsletter = () => {
         setMessage("");
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/newsletter/subscribe", {
+            const response = await fetch("http://127.0.0.1:8000/api/subscribe", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),

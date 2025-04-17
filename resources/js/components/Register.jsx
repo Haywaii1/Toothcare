@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom"; // ✅ Import for Login link
 import "../../css/forms.css";
 import axios from "axios";
 import Footer from "../components/Footer";
@@ -75,35 +75,79 @@ const Register = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label">Full Name</label>
-                    <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
                     {errors.name && <small className="text-danger">{errors.name[0]}</small>}
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Email</label>
-                    <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} required />
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
                     {errors.email && <small className="text-danger">{errors.email[0]}</small>}
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Phone</label>
-                    <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleChange} required />
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                    />
                     {errors.phone && <small className="text-danger">{errors.phone[0]}</small>}
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Password</label>
-                    <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
                     {errors.password && <small className="text-danger">{errors.password[0]}</small>}
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required />
-                    {errors.password_confirmation && <small className="text-danger">{errors.password_confirmation[0]}</small>}
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password_confirmation"
+                      value={formData.password_confirmation}
+                      onChange={handleChange}
+                      required
+                    />
+                    {errors.password_confirmation && (
+                      <small className="text-danger">{errors.password_confirmation[0]}</small>
+                    )}
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-100">Register</button>
+                  <button type="submit" className="btn btn-primary w-100">
+                    Register
+                  </button>
+
+                  {/* ✅ Login link below button */}
+                  <div className="text-center mt-3">
+                    Already have an account? <Link to="/login">Login</Link>
+                  </div>
                 </form>
               </div>
             </div>

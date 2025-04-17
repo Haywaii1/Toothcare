@@ -1,25 +1,27 @@
 <?php
 
-use App\Models\Newsletter;
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+use App\Models\Newsletter;
+use App\Mail\NewsletterSubscribed;
 use Illuminate\Support\Facades\Mail;
 
-class NewsletterController
+class NewsletterController extends Controller
 {
     public function subscribe(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'email' => 'required|email|unique:newsletters,email',
         ]);
 
         $newsletter = Newsletter::create([
-            'email' => $request->email,
+            'email' => $validated['email'],
         ]);
 
-        // Send notification email
-        Mail::to($request->email)->send(new \App\Mail\NewsletterSubscribed());
+        Mail::to($validated['email'])->send(new NewsletterSubscribed($validated['email']));
 
-        return response()->json(['message' => 'Subscription successful!']);
+        return response()->json(['message' => 'Thanks for subscribing!']);
     }
 }
 

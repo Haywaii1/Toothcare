@@ -110,14 +110,6 @@ const Navbar = () => {
           )}
         </div>
 
-        <button
-          type="button"
-          className="btn text-dark"
-          data-bs-toggle="modal"
-          data-bs-target="#searchModal"
-        >
-          <i className="fa fa-search"></i>
-        </button>
         <NavLink
           to="/appointments"
           className="btn btn-primary py-2 px-4 ms-3"
