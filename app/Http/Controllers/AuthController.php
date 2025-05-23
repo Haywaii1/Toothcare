@@ -10,42 +10,46 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function register(Request $request)
-    {
-        Log::info('Register API hit', $request->all()); // Log request data
+{
+    Log::info('Register API hit', $request->all());
 
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'phone' => 'required|string|min:10|max:15',
-                'password' => 'required|string|min:6|confirmed',
-            ]);
+    try {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|min:10|max:15',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
-            Log::info('Validation passed', $validated); // Log validation success
+        Log::info('Validation passed', $validated);
 
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'password' => Hash::make($validated['password']),
-            ]);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
+        ]);
 
-            Log::info('User created', ['id' => $user->id]);
+        Log::info('User created', ['id' => $user->id]);
 
-            // Automatically log in the user after registration
-            Auth::login($user);
+        $token = $user->createToken('API Token')->plainTextToken;
 
-            return response()->json(['message' => 'Registration successful!', 'user' => $user], 201);
-        } catch (\Exception $e) {
-            Log::error('Error in registration', [
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ]);
+        return response()->json([
+            'message' => 'Registration successful!',
+            'user' => $user,
+            'token' => $token,
+        ], 201);
+    } catch (\Exception $e) {
+        Log::error('Error in registration', [
+            'error' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+        ]);
 
-            return response()->json(['error' => 'Registration failed. Please try again.'], 500);
-        }
+        return response()->json(['error' => 'Registration failed. Please try again.'], 500);
     }
+}
+
 
     public function login(Request $request)
     {

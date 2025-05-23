@@ -9,6 +9,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../../css/style.css";
 import Footer from "./Footer";
+import Chat from "./chat";
 
 const Home = () => {
     return (
@@ -640,6 +641,9 @@ const Home = () => {
                 >
                     <i className="bi bi-arrow-up"></i>
                 </a>
+            </div>
+            <div>
+                <Chat />
             </div>
             <Footer />
         </>
