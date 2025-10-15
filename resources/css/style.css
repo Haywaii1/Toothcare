@@ -229,6 +229,15 @@ h6,
     z-index: -1;
 }
 
+.service-card:hover img {
+  transform: scale(1.05);
+}
+
+.service-card:hover .card-title {
+  color: #0d6efd;
+}
+
+
 .team-item:hover .team-text::after,
 .service-item:hover .bg-light::after {
     opacity: 1;
@@ -335,4 +344,97 @@ h6,
     font-size: 14px;
 }
 
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.admin-chat-container {
+  display: flex;
+  height: 90vh;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.chat-sidebar {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chat-user {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.chat-user.active {
+  background: #f0f0f0;
+}
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chat-message {
+  max-width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+}
+
+.chat-message.user {
+  background: #f1f1f1;
+  align-self: flex-start;
+}
+
+.chat-message.admin {
+  background: #007bff;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+  padding: 0.5rem;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+}
 

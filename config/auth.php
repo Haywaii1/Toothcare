@@ -3,19 +3,24 @@
 return [
 
     'defaults' => [
-        'guard' => 'api', // Set default to 'api' if using Sanctum for API authentication
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
     'guards' => [
         'web' => [
-            'driver' => 'session', // Use 'session' for web authentication
+            'driver' => 'session',
             'provider' => 'users',
         ],
 
         'api' => [
-            'driver' => 'sanctum', // Sanctum should be used only for API authentication
+            'driver' => 'sanctum', 
             'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'sanctum', 
+            'provider' => 'admins',
         ],
     ],
 
@@ -24,11 +29,23 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
     ],
 
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

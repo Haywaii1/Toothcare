@@ -49,7 +49,7 @@ const Register = () => {
 
       // Redirect after 2 seconds
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = "/login";
       }, 2000);
     } catch (error) {
       if (error.response?.data?.errors) {

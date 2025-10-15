@@ -8,11 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('doctors', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('service');
-            $table->timestamps();
-        });
+    $table->id();
+    $table->string('name');
+    $table->string('service');
+    $table->integer('experience');
+    $table->string('availability');
+    $table->float('rating', 2, 1);
+    $table->timestamps();
+});
     }
 
     public function down(): void

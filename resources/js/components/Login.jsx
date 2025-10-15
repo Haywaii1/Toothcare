@@ -5,94 +5,95 @@ import "../../css/forms.css";
 import Footer from "../components/Footer";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false); // 👈 Remember me state
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-        try {
-            const response = await axios.post(
-                "http://127.0.0.1:8000/api/login",
-                {
-                    email,
-                    password,
-                    remember: rememberMe, // 👈 Pass to backend if needed
-                }
-            );
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        email,
+        password,
+      });
 
-            if (response.data.token) {
-                localStorage.setItem("auth_token", response.data.token);
-                window.dispatchEvent(new Event("authChanged"));
-                axios.defaults.headers.common[
-                    "Authorization"
-                ] = `Bearer ${response.data.token}`;
-                navigate("/");
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || "Invalid credentials");
-        } finally {
-            setLoading(false);
-        }
-    };
+      if (response.data.token) {
+        // ✅ Store Sanctum token & user info
+        localStorage.setItem("auth_token", response.data.token);
+        localStorage.setItem("auth_user", JSON.stringify(response.data.user));
 
-    return (
-        <div>
-            <div className="login-container">
-                <h2>Login</h2>
-                {error && <p className="error">{error}</p>}
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Password:</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+        // ✅ Set axios default header for future requests
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
 
-                    <button type="submit" disabled={loading}>
-                        {loading ? "Logging in..." : "Login"}
-                    </button>
+        // ✅ Notify other components (like ChatBox) of auth change
+        window.dispatchEvent(new Event("authChanged"));
 
-                    {/* Move this part below the button */}
-                    <div className="remember-me">
-                        <label className="remember-label">
-                            <input
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={() => setRememberMe(!rememberMe)}
-                            />
-                            <span>Remember Me</span>
-                        </label>
-                    </div>
-                </form>
+        navigate("/"); // Redirect after login
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid credentials");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                <p style={{ marginTop: "1rem" }}>
-                    Don't have an account?{" "}
-                    <Link to="/register">Register here</Link>
-                </p>
-            </div>
+  return (
+    <div>
+      <div className="login-container">
+        <h2>Login</h2>
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-            <Footer />
-        </div>
-    );
+          <button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <div className="remember-me">
+            <label className="remember-label">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+              />
+              <span>Remember Me</span>
+            </label>
+          </div>
+        </form>
+
+        <p style={{ marginTop: "1rem" }}>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default Login;

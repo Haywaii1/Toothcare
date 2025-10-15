@@ -1,27 +1,24 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
-{
-    Log::info('Register API hit', $request->all());
+    {
+        Log::info('Register API hit', $request->all());
 
-    try {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|min:10|max:15',
             'password' => 'required|string|min:6|confirmed',
         ]);
-
-        Log::info('Validation passed', $validated);
 
         $user = User::create([
             'name' => $validated['name'],
@@ -30,8 +27,6 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Log::info('User created', ['id' => $user->id]);
-
         $token = $user->createToken('API Token')->plainTextToken;
 
         return response()->json([
@@ -39,43 +34,35 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ], 201);
-    } catch (\Exception $e) {
-        Log::error('Error in registration', [
-            'error' => $e->getMessage(),
-            'line' => $e->getLine(),
-            'file' => $e->getFile(),
-        ]);
-
-        return response()->json(['error' => 'Registration failed. Please try again.'], 500);
     }
-}
 
-
+    // In your LoginController or UserController@login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required',
         ]);
 
-        // Find the user by email
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::where('email', $request->email)->first();
 
-        // Check if user exists and password is correct
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        // Delete old tokens (optional)
-        $user->tokens()->delete();
-
-        // Create a Sanctum token
-        $token = $user->createToken('API Token')->plainTextToken;
+        // ✅ Create a single Sanctum token
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login successful',
-            'user' => $user,
             'token' => $token,
-        ], 200);
+            'user' => $user
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

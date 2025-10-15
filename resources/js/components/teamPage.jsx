@@ -1,43 +1,69 @@
 import React, { useEffect, useState } from "react";
-import Team from "./team";
+import axios from "axios";
+import "../../css/style.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const TeamPage = () => {
-    const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetch("/api/team") // Your backend API endpoint
-            .then((res) => res.json())
-            .then((data) => setMembers(data))
-            .catch((err) => console.error("Error fetching team members:", err));
-    }, []);
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/team")
+      .then((res) => {
+        setMembers(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch team members", err);
+        setLoading(false);
+      });
+  }, []);
 
-    return (
-        <div className="container py-5">
-            {/* Header Section */}
-            <div className="row mb-5">
-                <div className="col-lg-6 mx-auto text-center">
-                    <div className="section-title bg-light rounded p-4 shadow-sm">
+  useEffect(() => {
+          AOS.init({
+              duration: 1000, // duration of animation
+              once: true      // only animate once
+          });
+      }, []);
 
-                        <h1 className="display-6 mb-3">
-                            Meet Our Certified & Experienced Dentist
-                        </h1>
-                        <a href="/appointments" className="btn btn-primary py-2 px-4">
-                            Book Appointment
-                        </a>
-                    </div>
+  return (
+    
+    <div className="team-page container py-5">
+      <h2 className="text-center mb-4">Meet Our Dental Experts</h2>
+
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : (
+        <div className="row" >
+          {members.map((member) => (
+            <div key={member.id} className="col-md-4 mb-4" data-aos="fade-up">
+              <div className="card h-100 shadow-sm">
+                {member.image && (
+                  <img
+                    src={`http://127.0.0.1:8000/${member.image}`}
+                    alt={member.name}
+                    className="card-img-top"
+                    style={{ height: "250px", objectFit: "cover" }}
+                  />
+                )}
+                <div className="card-body" >
+                  <h5 className="card-title">{member.name}</h5>
+                  <p className="card-text text-muted">{member.role}</p>
+                  <p className="card-text"><strong>Specialty:</strong> {member.specialty}</p>
+                  <p className="card-text"><strong>Experience:</strong> {member.experience} years</p>
+                  <p className="card-text"><strong>Availability:</strong> {member.availability}</p>
+                  <p className="card-text"><strong>Bio:</strong> {member.bio}</p>
                 </div>
+              </div>
             </div>
-
-            {/* Team Cards Grid */}
-            <div className="row g-4">
-                {members.map((member, index) => (
-                    <div className="col-md-6 col-lg-4" key={index}>
-                        <Team teamMember={member} />
-                    </div>
-                ))}
-            </div>
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default TeamPage;

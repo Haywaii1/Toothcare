@@ -1,23 +1,27 @@
 <?php
 
-namespace App\Http\Controllers; // ✅ Ensure correct namespace
+namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 
-class DoctorController extends Controller // ✅ Extend base Controller
+class DoctorController extends Controller
 {
     public function getDoctorsByService(Request $request)
     {
-        $service = $request->query('service'); // Get service from query params
+        $service = $request->query('ailment');
+        $perPage = $request->query('per_page', 5); // Default to 5 doctors per page
 
-        if (!$service) {
-            return response()->json(['error' => 'Service parameter is required'], 400);
+        $query = Doctor::query();
+
+        if ($service) {
+            $query->where('service', 'LIKE', '%' . $service . '%');
         }
 
-        $doctors = Doctor::where('service', $service)->get();
+        $doctors = $query->paginate($perPage);
 
         return response()->json($doctors);
     }
+    
 }
 

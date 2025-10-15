@@ -10,8 +10,21 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../../css/style.css";
 import Footer from "./Footer";
 import Chat from "./chat";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+
+
 
 const Home = () => {
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // duration of animation
+            once: true      // only animate once
+        });
+    }, []);
+
     return (
         <>
             <div class="container-fluid bg-light ps-5 pe-0 d-none d-lg-block">
@@ -98,22 +111,23 @@ const Home = () => {
                                         className="p-3"
                                         style={{ maxWidth: "900px" }}
                                     >
-                                        <h5 className="text-white text-uppercase mb-3 animated slideInDown">
+                                        <h5 className="text-white text-uppercase mb-3 animated slideInDown" data-aos="fade-left">
                                             Keep Your Teeth Healthy
                                         </h5>
-                                        <h1 className="display-1 text-white mb-md-4 animated zoomIn">
+                                        <h1 className="display-1 text-white mb-md-4 animated zoomIn" data-aos="fade-right">
                                             Take The Best Quality Dental
                                             Treatment
                                         </h1>
                                         <a
                                             href="/appointments"
                                             className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
-                                        >
+                                            data-aos="flip-left">
                                             Appointment
                                         </a>
                                         <a
                                             href="/contact"
                                             className="btn btn-secondary py-md-3 px-md-5 animated slideInRight"
+                                            data-aos="flip-left"
                                         >
                                             Contact Us
                                         </a>
@@ -189,6 +203,7 @@ const Home = () => {
                                 data-wow-delay="0.1s"
                             >
                                 <div
+                                    data-aos="fade-right"
                                     className="bg-primary d-flex flex-column p-5"
                                     style={{ height: "300px" }}
                                 >
@@ -218,7 +233,7 @@ const Home = () => {
                                         href="/appointments"
                                         className="btn btn-light py-md-2 px-md-5 me-3 animated slideInLeft"
                                     >
-                                        Book an Appointment
+                                        Book Now
                                     </a>
                                 </div>
                             </div>
@@ -227,6 +242,7 @@ const Home = () => {
                                 data-wow-delay="0.3s"
                             >
                                 <div
+                                    data-aos="fade-up"
                                     className="bg-dark d-flex flex-column p-5"
                                     style={{ height: "300px" }}
                                 >
@@ -249,6 +265,7 @@ const Home = () => {
                                 data-wow-delay="0.6s"
                             >
                                 <div
+                                    data-aos="fade-left"
                                     className="bg-secondary d-flex flex-column p-5"
                                     style={{ height: "300px" }}
                                 >
@@ -269,28 +286,34 @@ const Home = () => {
                     </div>
                 </div>
 
+
                 <div
-                    class="container-fluid bg-primary bg-appointment my-5 wow fadeInUp d-flex justify-content-center text-center"
+                    className="container-fluid bg-primary bg-appointment my-5 wow fadeInUp d-flex justify-content-center text-center position-relative overflow-hidden"
                     data-wow-delay="0.1s"
                 >
-                    <div class="container">
-                        <div class="row gx-5 justify-content-center">
-                            <div class="col-lg-6 py-5">
-                                <div class="py-5">
-                                    <h1 class="display-5 text-white mb-4">
-                                        We Are A Certified and Award Winning
-                                        Dental Clinic You Can Trust
+                    {/* Background Video */}
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="position-absolute w-100 h-100 object-fit-cover opacity-50"
+                        style={{ top: 0, left: 0, zIndex: 0 }}
+                    >
+                        <source src="/videos/den.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+                    {/* Foreground Content */}
+                    <div className="container position-relative" style={{ zIndex: 1 }}>
+                        <div className="row gx-5 justify-content-center">
+                            <div className="col-lg-6 py-5">
+                                <div className="py-5">
+                                    <h1 className="display-5 text-white mb-4">
+                                        We Are A Certified and Award Winning Dental Clinic You Can Trust
                                     </h1>
-                                    <p class="text-white mb-0">
-                                        Eirmod sed tempor lorem ut dolores.
-                                        Aliquyam sit sadipscing kasd ipsum.
-                                        Dolor ea et dolore et at sea ea at
-                                        dolor, justo ipsum duo rebum sea
-                                        invidunt voluptua. Eos vero eos vero ea
-                                        et dolore eirmod et. Dolores diam duo
-                                        invidunt lorem. Elitr ut dolores magna
-                                        sit. Sea dolore sanctus sed et. Takimata
-                                        takimata sanctus sed.
+                                    <p className="text-white mb-0">
+                                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum...
                                     </p>
                                 </div>
                             </div>
@@ -298,342 +321,104 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div
-                    class="container-fluid py-5 wow fadeInUp"
-                    data-wow-delay="0.1s"
-                >
-                    <div class="container">
-                        <div class="row g-5 mb-5">
-                            <div
-                                className="col-lg-5 wow zoomIn"
-                                data-wow-delay="0.3s"
-                                style={{ minHeight: "400px" }}
-                            >
-                                <div class="twentytwenty-container position-relative h-100 rounded overflow-hidden">
-                                    <img
-                                        className="position-absolute w-100 h-100"
-                                        src="image/patient.jpg"
-                                        style={{ objectFit: "cover" }}
-                                        alt="Before"
-                                    />
-                                    <img
-                                        className="position-absolute w-100 h-100"
-                                        src="image/patient.jpg"
-                                        style={{ objectFit: "cover" }}
-                                        alt="After"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="section-title mb-5">
-                                    <h1 class="display-5 mb-0">
-                                        We Offer The Best Quality Dental
-                                        Services
-                                    </h1>
-                                </div>
-                                <div class="row g-5">
-                                    <div
-                                        class="col-md-6 service-item wow zoomIn"
-                                        data-wow-delay="0.6s"
-                                    >
-                                        <div class="rounded-top overflow-hidden">
-                                            <img
-                                                class="img-fluid"
-                                                src="image/surgery.jpg"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="position-relative bg-light rounded-bottom text-center p-4">
-                                            <h5 class="m-0">
-                                                Cosmetic Dentistry
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-6 service-item wow zoomIn"
-                                        data-wow-delay="0.9s"
-                                    >
-                                        <div class="rounded-top overflow-hidden">
-                                            <img
-                                                class="img-fluid"
-                                                src="image/surgery2.jpg"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="position-relative bg-light rounded-bottom text-center p-4">
-                                            <h5 class="m-0">Dental Implants</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-5 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="col-lg-7">
-                                <div class="row g-5">
-                                    <div
-                                        class="col-md-6 service-item wow zoomIn"
-                                        data-wow-delay="0.3s"
-                                    >
-                                        <div class="rounded-top overflow-hidden">
-                                            <img
-                                                class="img-fluid"
-                                                src="image/dental-surgery.jpg"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="position-relative bg-light rounded-bottom text-center p-4">
-                                            <h5 class="m-0">Dental Bridges</h5>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-6 service-item wow zoomIn"
-                                        data-wow-delay="0.6s"
-                                    >
-                                        <div class="rounded-top overflow-hidden">
-                                            <img
-                                                class="img-fluid"
-                                                src="image/teeth-whitening.jpg"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="position-relative bg-light rounded-bottom text-center p-4">
-                                            <h5 class="m-0">Teeth Whitening</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-5 service-item wow zoomIn"
-                                data-wow-delay="0.9s"
-                            >
-                                <div class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
-                                    <h3 class="text-white mb-3">
-                                        Make Appointment
-                                    </h3>
-                                    <p class="text-white mb-3">
-                                        Clita ipsum magna kasd rebum at ipsum
-                                        amet dolor justo dolor est magna stet
-                                        eirmod
-                                    </p>
-                                    <h2 class="text-white mb-0">
-                                        +012 345 6789
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="container-fluid py-5">
-                    <div class="container">
-                        <div class="row g-5">
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.1s"
-                            >
-                                <div class="section-title bg-light rounded h-100 p-5">
-                                    <h5 class="position-relative d-inline-block text-primary text-uppercase">
-                                        Our Dentist
-                                    </h5>
-                                    <h1 class="display-6 mb-4">
-                                        Meet Our Certified & Experienced Dentist
-                                    </h1>
-                                    <a
-                                        href="appointment.html"
-                                        class="btn btn-primary py-3 px-5"
-                                    >
-                                        Appointment
-                                    </a>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.3s"
-                            >
-                                <div class="team-item">
-                                    <div
-                                        className="position-relative rounded-top"
-                                        style={{ zIndex: 1 }}
-                                    >
-                                        <img
-                                            class="img-fluid rounded-top w-100"
-                                            src="img/team-1.jpg"
-                                            alt=""
-                                        />
-                                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                            <button className="btn btn-primary btn-square m-1">
-                                                <i className="fab fa-twitter fw-normal"></i>
-                                            </button>
-                                            <button className="btn btn-primary btn-square m-1">
-                                                <i className="fab fa-facebook-f fw-normal"></i>
-                                            </button>
-                                            <button className="btn btn-primary btn-square m-1">
-                                                <i className="fab fa-linkedin-in fw-normal"></i>
-                                            </button>
-                                            <button className="btn btn-primary btn-square m-1">
-                                                <i className="fab fa-instagram fw-normal"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                        <h4 class="mb-2">Dr. John Doe</h4>
-                                        <p class="text-primary mb-0">
-                                            Implant Surgeon
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.6s"
-                            >
-                                <div class="team-item">
-                                    <div
-                                        className="position-relative rounded-top"
-                                        style={{ zIndex: 1 }}
-                                    >
-                                        <img
-                                            class="img-fluid rounded-top w-100"
-                                            src="img/team-2.jpg"
-                                            alt=""
-                                        />
-                                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-twitter fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-facebook-f fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-linkedin-in fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-instagram fw-normal"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                        <h4 class="mb-2">Dr. John Doe</h4>
-                                        <p class="text-primary mb-0">
-                                            Implant Surgeon
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.1s"
-                            >
-                                <div class="team-item">
-                                    <div
-                                        class="position-relative rounded-top"
-                                        style={{ zIndex: 1 }}
-                                    >
-                                        <img
-                                            class="img-fluid rounded-top w-100"
-                                            src="img/team-3.jpg"
-                                            alt=""
-                                        />
-                                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-twitter fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-facebook-f fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-linkedin-in fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-instagram fw-normal"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                        <h4 class="mb-2">Dr. John Doe</h4>
-                                        <p class="text-primary mb-0">
-                                            Implant Surgeon
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.3s"
-                            >
-                                <div class="team-item">
-                                    <div
-                                        class="position-relative rounded-top"
-                                        style={{ zIndex: 1 }}
-                                    >
-                                        <img
-                                            className="img-fluid rounded-top w-100"
-                                            src="img/team-4.jpg"
-                                            alt=""
-                                        />
-                                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-twitter fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-facebook-f fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-linkedin-in fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-instagram fw-normal"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                        <h4 class="mb-2">Dr. John Doe</h4>
-                                        <p class="text-primary mb-0">
-                                            Implant Surgeon
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 wow slideInUp"
-                                data-wow-delay="0.6s"
-                            >
-                                <div class="team-item">
-                                    <div
-                                        class="position-relative rounded-top"
-                                        style={{ zIndex: 1 }}
-                                    >
-                                        <img
-                                            class="img-fluid rounded-top w-100"
-                                            src="img/team-5.jpg"
-                                            alt=""
-                                        />
-                                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-twitter fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-facebook-f fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-linkedin-in fw-normal"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-square m-1">
-                                                <i class="fab fa-instagram fw-normal"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                        <h4 class="mb-2">Dr. John Doe</h4>
-                                        <p class="text-primary mb-0">
-                                            Implant Surgeon
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div className="container-fluid py-5" data-aos="fade-up">
+  <div className="container">
+    <div className="row g-5 mb-5">
+      {/* Before & After Image */}
+      <div
+        className="col-lg-5"
+        data-aos="zoom-in"
+        data-aos-delay="200"
+        style={{ minHeight: "400px" }}
+      >
+        <div className="twentytwenty-container position-relative h-100 rounded overflow-hidden">
+          <img
+            className="position-absolute w-100 h-100"
+            src="image/patient.jpg"
+            alt="Before"
+            style={{ objectFit: "cover" }}
+            data-aos="fade-left"
+          />
+          <img
+            className="position-absolute w-100 h-100"
+            src="image/patient.jpg"
+            alt="After"
+            style={{ objectFit: "cover" }}
+            data-aos="fade-right"
+            data-aos-delay="300"
+          />
+        </div>
+      </div>
+
+      {/* Section Title and First 2 Services */}
+      <div className="col-lg-7">
+        <div className="section-title mb-5">
+          <h1 className="display-5 mb-0" data-aos="flip-left" style={{ color: "#0d6efd" }}>
+            We Offer The Best Quality Dental Services
+          </h1>
+        </div>
+        <div className="row g-5">
+          <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div className="rounded-top overflow-hidden">
+              <img className="img-fluid" src="image/surgery.jpg" alt="Cosmetic Dentistry" />
+            </div>
+            <div className="bg-light rounded-bottom text-center p-4">
+              <h5 className="m-0" style={{ color: "#0d6efd" }}>Cosmetic Dentistry</h5>
+            </div>
+          </div>
+          <div className="col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div className="rounded-top overflow-hidden">
+              <img className="img-fluid" src="image/surgery2.jpg" alt="Dental Implants" />
+            </div>
+            <div className="bg-light rounded-bottom text-center p-4">
+              <h5 className="m-0" style={{ color: "#0d6efd" }}>Dental Implants</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Remaining Services and CTA */}
+    <div className="row g-5">
+      <div className="col-lg-7">
+        <div className="row g-5">
+          <div className="col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div className="rounded-top overflow-hidden">
+              <img className="img-fluid" src="image/dental-surgery.jpg" alt="Dental Bridges" />
+            </div>
+            <div className="bg-light rounded-bottom text-center p-4">
+              <h5 className="m-0" style={{ color: "#0d6efd" }}>Dental Bridges</h5>
+            </div>
+          </div>
+          <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div className="rounded-top overflow-hidden">
+              <img className="img-fluid" src="image/teeth-whitening.jpg" alt="Teeth Whitening" />
+            </div>
+            <div className="bg-light rounded-bottom text-center p-4">
+              <h5 className="m-0" style={{ color: "#0d6efd" }}>Teeth Whitening</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="col-lg-5"
+        data-aos="zoom-in"
+        data-aos-delay="400"
+      >
+        <div className="bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
+          <h3 className="text-white mb-3">Make Appointment</h3>
+          <p className="text-white mb-3">
+            Clita ipsum magna kasd rebum at ipsum amet dolor justo dolor est magna stet eirmod
+          </p>
+          <h2 className="text-white mb-0">+012 345 6789</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 <a
                     href="#"

@@ -23,7 +23,6 @@ class AppointmentController extends Controller
 
         $request->validate([
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i:s',
             'ailment' => 'required|string',
             'message' => 'nullable|string',
         ]);
@@ -36,7 +35,6 @@ class AppointmentController extends Controller
             'email' => $user->email, // Automatically assign user's email
             'phone' => $user->phone, // Ensure 'phone' exists in users table
             'date' => $request->date,
-            'time' => $request->time,
             'ailment' => $request->ailment,
             'message' => $request->message,
         ]);

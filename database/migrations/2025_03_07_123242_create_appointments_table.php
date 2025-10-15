@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->string('email'); // Add this
             $table->string('phone'); // Add this
             $table->date('date');
-            $table->time('time');
             $table->string('ailment')->nullable();
             $table->text('message')->nullable();
             $table->timestamps();

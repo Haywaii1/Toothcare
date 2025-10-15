@@ -3,17 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
 
 const Appointment = () => {
   const [formData, setFormData] = useState({
     date: new Date(),
-    time: "",
     ailment: "",
     message: "",
   });
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [authToken, setAuthToken] = useState("");
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -34,21 +32,16 @@ const Appointment = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const formatTime = (time) => {
-    return `${time}:00`; // Convert HH:MM to HH:MM:SS
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonClicked(true);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/api/appointments",
         {
           ...formData,
-          date: formData.date.toISOString().split("T")[0],
-          time: formatTime(formData.time),
+          date: formData.date.toISOString().split("T")[0], // only send date
         },
         {
           headers: {
@@ -60,14 +53,14 @@ const Appointment = () => {
         }
       );
 
-      setSuccessMessage("Appointment booked successfully!");
+      toast.success("Appointment booked successfully!");
 
       setTimeout(() => {
         navigate("/");
       }, 2000);
     } catch (error) {
       console.error("Error:", error.response?.data);
-      setErrorMessage(error.response?.data?.message || "Failed to book appointment.");
+      toast.error(error.response?.data?.message || "Failed to book appointment.");
       setButtonClicked(false); // Allow retry
     }
   };
@@ -87,8 +80,7 @@ const Appointment = () => {
   return (
     <div className="container mt-5">
       <h2 className="text-center">Book an Appointment</h2>
-      {successMessage && <div className="alert alert-success">{successMessage}</div>}
-      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
       <form onSubmit={handleSubmit} className="shadow p-4 bg-light rounded">
         <div className="mb-3">
           <label className="form-label">Ailment</label>
@@ -116,18 +108,6 @@ const Appointment = () => {
             className="form-control"
             dateFormat="yyyy-MM-dd"
             minDate={new Date()}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Time</label>
-          <input
-            type="time"
-            name="time"
-            className="form-control"
-            value={formData.time}
-            onChange={handleChange}
             required
           />
         </div>
