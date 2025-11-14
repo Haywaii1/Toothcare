@@ -14,13 +14,17 @@ return [
         ],
 
         'api' => [
-            'driver' => 'sanctum', 
+            'driver' => 'sanctum',
             'provider' => 'users',
+            'hash' => false,
+
         ],
 
         'admin' => [
-            'driver' => 'sanctum', 
+            'driver' => 'sanctum',
             'provider' => 'admins',
+            'hash' => false,
+
         ],
     ],
 

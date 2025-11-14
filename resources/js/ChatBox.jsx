@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
@@ -8,6 +8,7 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [authError, setAuthError] = useState("");
+  const [connectionError, setConnectionError] = useState("");
   const [token, setToken] = useState(localStorage.getItem("auth_token"));
   const [user, setUser] = useState(
     localStorage.getItem("auth_user")
@@ -15,41 +16,85 @@ const ChatBox = () => {
       : null
   );
 
+  const messagesEndRef = useRef(null);
+
   window.Pusher = Pusher;
 
+  /** ✅ Scroll to bottom on new messages */
+//   useEffect(() => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages]);
+
+//   useEffect(() => {
+//   window.Pusher = Pusher;
+//   window.Echo = new Echo({
+//     broadcaster: "pusher",
+//     key: "7633d3843f1432e54dc9", // ✅ From .env
+//     cluster: "mt1",              // ✅ From .env
+//     forceTLS: true,
+//   });
+
+//   const channel = window.Echo.channel(`chat.${user.id}`);
+
+//   channel.listen(".ChatEnded", (e) => {
+//     alert("Admin has ended the chat session.");
+//     setMessages([]);
+//   });
+
+//   return () => {
+//     channel.stopListening(".ChatEnded");
+//   };
+// }, []);
+
+
+
+  /** ✅ Setup Laravel Echo (Pusher) */
   useEffect(() => {
     if (!token) return;
 
-    window.Echo = new Echo({
-      broadcaster: "pusher",
-      key: "7633d3843f1432e54dc9", // your key
-      cluster: "mt1",
-      forceTLS: true,
-      authEndpoint: "http://127.0.0.1:8000/broadcasting/auth",
-      auth: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    });
+    try {
+      if (window.Echo) window.Echo.disconnect();
 
-    window.Echo.private("chat").listen(".message.sent", (e) => {
-      console.log("📩 New message received:", e);
-      setMessages((prev) => [
-        ...prev,
-        { message: e.message, is_admin: e.sender === "Admin" },
-      ]);
-    });
+      window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: "7633d3843f1432e54dc9",
+        cluster: "mt1",
+        forceTLS: true,
+        authEndpoint: "http://127.0.0.1:8000/broadcasting/auth",
+        auth: { headers: { Authorization: `Bearer ${token}` } },
+      });
 
-    return () => {
-      if (window.Echo) {
+      const channel = window.Echo.private("chat");
+
+      channel.listen(".message.sent", (e) => {
+        console.log("📩 Received broadcast:", e);
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === e.id && e.id)) return prev;
+          return [
+            ...prev,
+            {
+              id: e.id || Date.now(),
+              message: e.message,
+              is_admin: e.is_admin,
+              user: e.user,
+              user_id: e.user_id,
+              created_at: e.created_at || new Date().toISOString(),
+            },
+          ];
+        });
+      });
+
+      return () => {
+        channel.stopListening(".message.sent");
         window.Echo.disconnect();
-      }
-    };
+      };
+    } catch (err) {
+      console.error("Echo connection failed:", err);
+      setConnectionError("⚠️ Chat connection failed.");
+    }
   }, [token]);
 
-
-  // ✅ React to login/logout events
+  /** ✅ Listen for login/logout changes */
   useEffect(() => {
     const handleAuthChange = () => {
       const newToken = localStorage.getItem("auth_token");
@@ -78,10 +123,9 @@ const ChatBox = () => {
     };
   }, []);
 
-  // ✅ Fetch messages for logged-in user
+  /** ✅ Fetch user chat history */
   const fetchMessages = async (authToken = token) => {
     if (!authToken) return;
-
     try {
       const res = await axios.get("http://127.0.0.1:8000/api/chat/messages", {
         headers: {
@@ -89,7 +133,9 @@ const ChatBox = () => {
           Accept: "application/json",
         },
       });
-      setMessages(res.data || []);
+
+      const data = Array.isArray(res.data.data) ? res.data.data : [];
+      setMessages(data);
     } catch (err) {
       console.error("Failed to load messages:", err.response?.data || err.message);
       if (err.response?.status === 401) {
@@ -104,11 +150,19 @@ const ChatBox = () => {
     }
   };
 
+  /** ✅ Auto-refresh every 1s */
   useEffect(() => {
-    if (isOpen && token) fetchMessages();
+    if (!isOpen || !token) return;
+    fetchMessages();
+
+    const interval = setInterval(() => {
+      fetchMessages();
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, [isOpen, token]);
 
-  // ✅ Send a message
+  /** ✅ Send message */
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!message.trim()) return;
@@ -120,10 +174,7 @@ const ChatBox = () => {
     try {
       const res = await axios.post(
         "http://127.0.0.1:8000/api/chat/send",
-        {
-          message, // ✅ only send message
-          is_admin: false,
-        },
+        { message, is_admin: false },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,8 +182,7 @@ const ChatBox = () => {
           },
         }
       );
-
-      setMessages((prev) => [...prev, res.data]);
+      setMessages((prev) => [...prev, res.data.data]);
       setMessage("");
     } catch (error) {
       console.error("❌ Message send failed:", error.response?.data || error.message);
@@ -150,39 +200,65 @@ const ChatBox = () => {
 
   return (
     <div style={styles.wrapper}>
-      {isOpen && (
+      {isOpen ? (
         <div style={styles.chatBox}>
           <div style={styles.header}>
-            <span>{token ? "Chat Connected ✅" : "Login required 🚫"}</span>
-            <button onClick={() => setIsOpen(false)}>−</button>
+            <span>
+              {connectionError
+                ? connectionError
+                : token
+                  ? "Chat Connected ✅"
+                  : "Login required 🚫"}
+            </span>
+            <button onClick={() => setIsOpen(false)} style={styles.closeBtn}>
+              ×
+            </button>
           </div>
 
           <div style={styles.messages}>
             {!token ? (
-              <div style={{ textAlign: "center", color: "#777" }}>
-                Please log in to view and send messages.
-              </div>
+              <div style={styles.empty}>Please log in to chat.</div>
             ) : messages.length > 0 ? (
-              messages.map((msg, index) => (
-                <div
-                  key={msg.id || index}
-                  style={{
-                    ...styles.messageItem,
-                    background: msg.is_admin ? "#e0f7ff" : "#f1f1f1",
-                    alignSelf: msg.is_admin ? "flex-start" : "flex-end",
-                  }}
-                >
-                  <div>{msg.message}</div>
-                  <small style={styles.timestamp}>
-                    {new Date(msg.created_at).toLocaleTimeString()}
-                  </small>
-                </div>
-              ))
+              messages.map((msg, index) => {
+                const isAdmin =
+                  msg.is_admin === true ||
+                  msg.is_admin === 1 ||
+                  msg.sender_type === "admin";
+                return (
+                  <div
+                    key={msg.id || index}
+                    style={{
+                      ...styles.messageWrapper,
+                      justifyContent: isAdmin ? "flex-start" : "flex-end",
+                    }}
+                  >
+                    <div
+                      style={{
+                        ...styles.messageBubble,
+                        background: isAdmin ? "#007bff" : "#28a745",
+                        borderRadius: isAdmin
+                          ? "14px 14px 14px 4px"
+                          : "14px 14px 4px 14px",
+                        alignSelf: isAdmin ? "flex-start" : "flex-end",
+                      }}
+                    >
+                      <div style={{ fontSize: "13px", lineHeight: "1.3" }}>
+                        {msg.message}
+                      </div>
+                      <small style={styles.timestamp}>
+                        {new Date(msg.created_at).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </small>
+                    </div>
+                  </div>
+                );
+              })
             ) : (
-              <div style={{ textAlign: "center", color: "#777" }}>
-                No messages yet.
-              </div>
+              <div style={styles.empty}>No messages yet.</div>
             )}
+            <div ref={messagesEndRef} />
           </div>
 
           <form style={styles.inputArea} onSubmit={sendMessage}>
@@ -192,17 +268,16 @@ const ChatBox = () => {
               onChange={(e) => setMessage(e.target.value)}
               placeholder={token ? "Type a message..." : "Login to chat"}
               disabled={!token}
+              style={styles.input}
             />
-            <button type="submit" disabled={!token}>
-              Send
+            <button type="submit" disabled={!token} style={styles.sendBtn}>
+              ➤
             </button>
           </form>
 
           {authError && <div style={styles.error}>{authError}</div>}
         </div>
-      )}
-
-      {!isOpen && (
+      ) : (
         <button style={styles.toggleBtn} onClick={() => setIsOpen(true)}>
           💬
         </button>
@@ -211,32 +286,36 @@ const ChatBox = () => {
   );
 };
 
+/** ✅ Styles */
 const styles = {
   wrapper: { position: "fixed", bottom: "20px", left: "20px", zIndex: 9999 },
   chatBox: {
-    width: "300px",
-    height: "450px",
-    background: "#fff",
+    width: "320px",
+    height: "480px",
+    background: "#f9f9f9",
     border: "1px solid #ccc",
-    borderRadius: "10px",
+    borderRadius: "12px",
     display: "flex",
     flexDirection: "column",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
   },
   header: {
     background: "#007bff",
     color: "#fff",
     padding: "10px",
-    borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px",
+    borderTopLeftRadius: "12px",
+    borderTopRightRadius: "12px",
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
+    fontWeight: "bold",
   },
-  error: {
-    background: "#ffe5e5",
-    color: "#d00",
-    padding: "5px",
-    fontSize: "14px",
-    textAlign: "center",
+  closeBtn: {
+    background: "transparent",
+    border: "none",
+    color: "#fff",
+    fontSize: "18px",
+    cursor: "pointer",
   },
   messages: {
     flex: 1,
@@ -245,7 +324,51 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
-  inputArea: { display: "flex", padding: "10px", borderTop: "1px solid #ccc" },
+  messageWrapper: {
+    display: "flex",
+    width: "100%",
+    marginBottom: "10px",
+  },
+  messageBubble: {
+    display: "inline-block",
+    maxWidth: "70%",
+    padding: "8px 12px",
+    borderRadius: "14px",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    color: "#fff",
+    wordBreak: "break-word",
+    fontSize: "13px",
+    lineHeight: "1.4",
+  },
+  timestamp: {
+    fontSize: "10px",
+    color: "rgba(255,255,255,0.8)",
+    marginTop: "4px",
+    textAlign: "right",
+    display: "block",
+  },
+  inputArea: {
+    display: "flex",
+    padding: "10px",
+    borderTop: "1px solid #ccc",
+    background: "#fafafa",
+  },
+  input: {
+    flex: 1,
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "8px",
+    outline: "none",
+  },
+  sendBtn: {
+    marginLeft: "8px",
+    background: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "8px 12px",
+    cursor: "pointer",
+  },
   toggleBtn: {
     background: "#007bff",
     color: "#fff",
@@ -254,13 +377,14 @@ const styles = {
     borderRadius: "50%",
     cursor: "pointer",
   },
-  messageItem: {
-    marginBottom: "10px",
-    padding: "8px 12px",
-    borderRadius: "10px",
-    maxWidth: "80%",
+  empty: { textAlign: "center", color: "#777", marginTop: "40%" },
+  error: {
+    background: "#ffe5e5",
+    color: "#d00",
+    padding: "5px",
+    fontSize: "14px",
+    textAlign: "center",
   },
-  timestamp: { fontSize: "11px", color: "#777", marginTop: "4px", display: "block" },
 };
 
 export default ChatBox;

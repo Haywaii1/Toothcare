@@ -65,7 +65,7 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/chat/messages', [ChatController::class, 'getMessages']);
-    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    // Route::post('/chat/send', [ChatController::class, 'sendMessage']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -93,7 +93,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/chat/{userId}/messages', [ChatController::class, 'getMessages']);
 
     // Send message (user or admin authenticated)
-    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    // Route::post('/chat/send', [ChatController::class, 'sendMessage']);
 });
 
 Route::middleware('auth:admin')->group(function () {
@@ -108,22 +108,19 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // For admin
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/chats', [ChatController::class, 'usersWithChats']);
-    Route::get('/admin/chats/{userId}', [ChatController::class, 'getConversationWithUser']);
-    Route::post('/admin/chats/send', [ChatController::class, 'sendMessage']);
-});
-
-Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Chats
-    Route::get('/chats', [ChatController::class, 'usersWithChats']); // list users admin chatted with
+    Route::get('/chats', [ChatController::class, 'usersWithChats']);
     Route::get('/chats/{userId}', [ChatController::class, 'getConversationWithUser']);
     Route::post('/chats/send', [ChatController::class, 'sendMessage']);
     Route::get('/chat/{userId}/messages', [ChatController::class, 'getMessages']);
     Route::get('/chat/recent', [ChatController::class, 'recentChats']);
+    Route::delete('/chat/{user_id}/end', [ChatController::class, 'endChat']);
+    Route::post('/chat/ai', [ChatController::class, 'aiHandler']);
 });
+
 
 
 
